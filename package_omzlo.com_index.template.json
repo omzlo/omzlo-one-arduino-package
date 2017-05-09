@@ -1,0 +1,30 @@
+{
+    "packages":[
+        {
+            "name": "omzlo",
+            "maintainer": "Alain Pannetrat",		  
+            "websiteURL": "http://omzlo.com",
+            "email": "l1l1@gmx.com",
+
+            "platforms": [
+                {
+                    "name": "Omzlo AVR Boards",
+                    "architecture": "avr",
+                    "version": "${version}",
+                    "category": "Omzlo",
+                    "url": "http://paris.matrix.lan/~pannetra/nocan_pack_${version}.zip",
+                    "checksum": "SHA-256:${checksum}",
+                    "archiveFileName": "nocan_pack_${version}.zip",
+                    "size": "${size}",
+                    "boards": [
+                        { "name": "Omzlo One" }
+                    ],
+                    "toolsDependencies": [				
+                    ]
+                }
+            ],      	
+            "tools": [
+            ]
+        }
+    ]  
+}

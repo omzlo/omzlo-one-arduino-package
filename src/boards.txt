@@ -1,0 +1,12 @@
+# See: http://code.google.com/p/arduino/wiki/Platforms
+
+##############################################################
+
+omzlo_one.name=Omzlo One
+
+omzlo_one.build.f_cpu=16000000L
+omzlo_one.build.board=AVR_OMZLO_ONE
+omzlo_one.build.core=arduino:arduino
+omzlo_one.build.variant=omzlo_one
+omzlo_one.build.mcu=atmega328pb 
+
