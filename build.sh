@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=0.0.5
+VERSION=0.0.6
 ZIPFILE=boards/nocan_pack_$VERSION.zip
 JSONFILE=package_omzlo.com_index.json
 TEMPLATE=package_omzlo.com_index.template.json

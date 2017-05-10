@@ -1,5 +1,6 @@
 #include "twi_328pb.h"
 #include <avr/io.h>
+#include <util/twi.h>
 
 #define TWSR TWSR1
 #define TWBR TWBR1
@@ -15,6 +16,8 @@
     #define TWEA TWEA1
     #define TWINT TWINT1
 #endif
+
+uint8_t TWI_ERROR_COUNT = 0;
 
 void twi_init(void)
 {
@@ -32,20 +35,56 @@ void twi_init(void)
                 16+(2*12) = 40, 16m / 40 => 400k
                 16+(2*72) = 160, 16m / 160 => 100k
     */
-    //enable TWI
-    TWCR = (1<<TWEN);
 }
 
-void twi_start(void)
+int8_t twi_re_start(uint8_t address)
 {
-                // TWCR => TW control reg
-                // TWINT => write one, clears bit
-                // TWSTA => send start condition
-                // TWEN => keep it enabled (it was set in i2c_init)
+    uint8_t status;
+
+    // TWCR => TW control reg
+    // TWINT => write one, clears bit
+    // TWSTA => send start condition
+    // TWEN => enable twi
     TWCR = (1<<TWINT)|(1<<TWSTA)|(1<<TWEN);
-                // wait until WINT is set, indicates START condition transmitted
+    // wait until WINT is set, indicates START condition transmitted
     while ((TWCR & (1<<TWINT)) == 0);
-                // We could check for errors by looking into TWSR higher 5 bits
+    // We could check for errors by looking into TWSR higher 5 bits
+
+    status = TWSR & 0xF8;
+    if ((status!=TW_START) && (status!=TW_REP_START)) {
+        TWI_ERROR_COUNT++;
+        return -1;
+    }
+
+    // send addr
+    TWDR = address;
+    TWCR = (1<<TWINT) | (1<<TWEN);
+
+    // wait again
+    while ((TWCR & (1<<TWINT)) == 0);
+
+    status = TWSR & 0xF8;
+
+    if ((status==TW_MT_SLA_NACK) || (status==TW_MR_DATA_NACK))
+    {
+        twi_stop();
+        TWI_ERROR_COUNT++;
+        return -1;
+    }
+
+    return 0;
+}
+
+int8_t twi_start(uint8_t address)
+{
+    uint8_t status;
+
+    for (;;)
+    {
+        if (twi_re_start(address)==0) break;
+    }
+
+    return 0;
 }
 
 void twi_stop(void)
@@ -55,11 +94,21 @@ void twi_stop(void)
     while ((TWCR & (1 << TWSTO)) == 0);
 }
 
-void twi_write(uint8_t c)
+int8_t twi_write(uint8_t c)
 {
+    uint8_t status;
+
     TWDR = c;                               // TWDR => data or address register
     TWCR = (1<<TWINT)|(1<<TWEN);            // TWINT => writing one clears it
     while ((TWCR & (1<<TWINT)) == 0);
+
+    status = TWSR & 0xF8;
+    if (status!=TW_MT_DATA_ACK) {
+        TWI_ERROR_COUNT++;
+        return -1;
+    }
+
+    return 0;
 }
 
 uint8_t twi_read(uint8_t ack)
