@@ -10,12 +10,12 @@
                 {
                     "name": "Omzlo AVR Boards",
                     "architecture": "avr",
-                    "version": "0.0.6",
+                    "version": "0.0.7",
                     "category": "Omzlo",
-                    "url": "http://paris.matrix.lan/~pannetra/nocan_pack_0.0.6.zip",
-                    "checksum": "SHA-256:d2d8281659dffd8ebb897e8b4d950a447ec45cad2fc408c5f28487c757453456",
-                    "archiveFileName": "nocan_pack_0.0.6.zip",
-                    "size": "54119",
+                    "url": "http://paris.matrix.lan/~pannetra/nocan_pack_0.0.7.zip",
+                    "checksum": "SHA-256:cb16da10744641f5ac8012078c5a5f6c5c0bf27c54e43b804e834da45f0e7a5a",
+                    "archiveFileName": "nocan_pack_0.0.7.zip",
+                    "size": "51688",
                     "boards": [
                         { "name": "Omzlo One" }
                     ],
