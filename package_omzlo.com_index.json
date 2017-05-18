@@ -13,9 +13,9 @@
                     "version": "0.0.7",
                     "category": "Omzlo",
                     "url": "http://paris.matrix.lan/~pannetra/nocan_pack_0.0.7.zip",
-                    "checksum": "SHA-256:cb16da10744641f5ac8012078c5a5f6c5c0bf27c54e43b804e834da45f0e7a5a",
+                    "checksum": "SHA-256:97c319db7b5f162fc76318343c1b12cae1cd6f708e8f94fd8dc2351e418b7da7",
                     "archiveFileName": "nocan_pack_0.0.7.zip",
-                    "size": "51688",
+                    "size": "51715",
                     "boards": [
                         { "name": "Omzlo One" }
                     ],

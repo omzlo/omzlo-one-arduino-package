@@ -2,7 +2,7 @@
 #define _NOCAN_H_
 
 #include <stdint.h>
-#include <avr/io.h>
+#include <avr/io.h>:q
 #include <nocan_ll.h>
 
 /*
@@ -60,8 +60,7 @@ class NocanClass {
 
         int8_t subscribeChannel(NocanChannelId channel_id) const;
 
-        int8_t lookupAndSubscribeChannel(const char *channel) const { 
-            NocanChannelId channel_id;
+        int8_t lookupAndSubscribeChannel(const char *channel, NocanChannelId &channel_id) const { 
             uint8_t status;
             status = lookupChannel(channel,channel_id);
             if (status<0)
@@ -73,7 +72,7 @@ class NocanClass {
 
         int8_t publishMessage(NocanMessage &msg) const;
         
-        int8_t publishMessage(NocanChannelId cid, const char *msg) const;
+        int8_t publishMessage(NocanChannelId cid, uint8_t len const uint8_t *data) const;
 
         int8_t receiveMessage(NocanMessage &msg) const;
         

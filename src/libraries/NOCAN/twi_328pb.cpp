@@ -2,12 +2,29 @@
 #include <avr/io.h>
 #include <util/twi.h>
 
-#define TWSR TWSR1
-#define TWBR TWBR1
-#define TWCR TWCR1
-#define TWDR TWDR1
+#ifdef USER_I2C_0
+  #define TWSR TWSR0
+  #define TWBR TWBR0
+  #define TWCR TWCR0
+  #define TWDR TWDR0
 
-#ifndef TWIE 
+  #ifndef TWIE 
+    #define TWIE TWIE0
+    #define TWEN TWEN0 
+    #define TWWC TWWC0
+    #define TWSTO TWSTO0
+    #define TWSTA TWSTA0
+    #define TWEA TWEA0
+    #define TWINT TWINT0
+  #endif
+#else
+    // DEFAULT: 
+  #define TWSR TWSR1
+  #define TWBR TWBR1
+  #define TWCR TWCR1
+  #define TWDR TWDR1
+
+  #ifndef TWIE 
     #define TWIE TWIE1
     #define TWEN TWEN1 
     #define TWWC TWWC1
@@ -15,9 +32,8 @@
     #define TWSTA TWSTA1
     #define TWEA TWEA1
     #define TWINT TWINT1
+  #endif
 #endif
-
-uint8_t TWI_ERROR_COUNT = 0;
 
 void twi_init(void)
 {
@@ -52,7 +68,6 @@ int8_t twi_re_start(uint8_t address)
 
     status = TWSR & 0xF8;
     if ((status!=TW_START) && (status!=TW_REP_START)) {
-        TWI_ERROR_COUNT++;
         return -1;
     }
 
@@ -68,7 +83,6 @@ int8_t twi_re_start(uint8_t address)
     if ((status==TW_MT_SLA_NACK) || (status==TW_MR_DATA_NACK))
     {
         twi_stop();
-        TWI_ERROR_COUNT++;
         return -1;
     }
 
@@ -104,7 +118,6 @@ int8_t twi_write(uint8_t c)
 
     status = TWSR & 0xF8;
     if (status!=TW_MT_DATA_ACK) {
-        TWI_ERROR_COUNT++;
         return -1;
     }
 

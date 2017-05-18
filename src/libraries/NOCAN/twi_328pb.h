@@ -15,6 +15,4 @@ uint8_t twi_read(uint8_t ack);
 #define TWI_NACK 0
 #define TWI_ACK 1
 
-extern uint8_t TWI_ERROR_COUNT;
-
 #endif

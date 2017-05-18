@@ -30,6 +30,8 @@
 
 int8_t nocan_ll_init(void)
 {
+    twi_init();
+
     twi_start(TWI_ADDR);
     twi_write(TWI_NOCAN_RESET);
     twi_write(0x01);
